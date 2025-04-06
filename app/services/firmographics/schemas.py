@@ -62,7 +62,7 @@ class CompanyOut(BaseModel):
     name: str
     sector: Optional[str]
     country: Optional[str]
-    listed: bool
+    listed: Optional[str]
     market_listings: List[MarketListing] = []
     employees: List[EmployeeCount] = []
     branches: List[BranchCount] = []
