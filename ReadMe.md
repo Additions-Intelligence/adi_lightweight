@@ -25,6 +25,9 @@ From the root directory (project):
 uvicorn app.main:app --reload
 ```
 
-The application will run at **`http://127.0.0.1:8000/`**
+The application will run at **`http://127.0.0.1:8000/docs`**
+
+
+Additional Intelligence App APIs **`http://127.0.0.1:8000/docs`**
 
 ---

@@ -1,5 +1,5 @@
 from app.database import Base
-from sqlalchemy import Column, String, Integer, ForeignKey
+from sqlalchemy import Column, String, Integer, Float, ForeignKey
 from sqlalchemy.orm import relationship, declarative_base
 
 Base = declarative_base()
@@ -45,6 +45,7 @@ class Company(Base):
     solicitors = relationship("Solicitor", back_populates="company")
     key_people = relationship("KeyPerson", back_populates="company")
     competitors = relationship("Competitor", back_populates="company")
+    ownerships = relationship("OwnershipDetail", back_populates="company")
 
 class MarketListing(Base):
     __tablename__ = 'market_listings'
@@ -108,3 +109,29 @@ class Competitor(Base):
     company = relationship("Company", back_populates="competitors")
 
 #_______Firmographics_End________
+
+
+#_______Ownership_Start________
+class OwnershipDetail(Base):
+    __tablename__ = 'ownership_details'
+    id = Column(Integer, primary_key=True, autoincrement=True)
+    company_id = Column(Integer, ForeignKey('companies.id'))
+    year = Column(Integer, nullable=False)
+    total_shares = Column(Integer, nullable=True)
+    total_percentage = Column(Float, nullable=True)
+    company = relationship("Company", back_populates="ownerships")
+    beneficial_owners = relationship("BeneficialOwner", back_populates="ownership_detail")
+
+class BeneficialOwner(Base):
+    __tablename__ = 'beneficial_owners'
+    id = Column(Integer, primary_key=True, autoincrement=True)
+    ownership_detail_id = Column(Integer, ForeignKey('ownership_details.id'))
+    name = Column(String, nullable=True)
+    amount = Column(Float, nullable=True)
+    percentage = Column(Float, nullable=True)
+    country = Column(String, nullable=True)
+    type = Column(String, nullable=True)
+    ownership_detail = relationship("OwnershipDetail", back_populates="beneficial_owners")
+
+
+#_______Ownership_End________
